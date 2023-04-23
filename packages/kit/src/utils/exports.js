@@ -67,6 +67,7 @@ const valid_server_exports = [
 	'PUT',
 	'DELETE',
 	'OPTIONS',
+	'HEAD',
 	'prerender',
 	'trailingSlash',
 	'config'
