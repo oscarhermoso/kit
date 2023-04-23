@@ -359,6 +359,7 @@ export type SSREndpoint = Partial<Record<HttpMethod, RequestHandler>> & {
 	prerender?: PrerenderOption;
 	trailingSlash?: TrailingSlash;
 	config?: any;
+	all?: RequestHandler;
 };
 
 export interface SSRRoute {

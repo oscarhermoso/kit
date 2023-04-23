@@ -52,13 +52,8 @@ function hint_for_supported_files(key, ext = '.js') {
 
 const valid_common_exports = ['load', 'prerender', 'csr', 'ssr', 'trailingSlash', 'config'];
 const valid_page_server_exports = [
-	'load',
-	'prerender',
-	'csr',
-	'ssr',
+	...valid_common_exports,
 	'actions',
-	'trailingSlash',
-	'config'
 ];
 const valid_server_exports = [
 	'GET',
@@ -67,6 +62,7 @@ const valid_server_exports = [
 	'PUT',
 	'DELETE',
 	'OPTIONS',
+	'all',
 	'prerender',
 	'trailingSlash',
 	'config'
