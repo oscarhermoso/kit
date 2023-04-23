@@ -51,10 +51,7 @@ function hint_for_supported_files(key, ext = '.js') {
 }
 
 const valid_common_exports = ['load', 'prerender', 'csr', 'ssr', 'trailingSlash', 'config'];
-const valid_page_server_exports = [
-	...valid_common_exports,
-	'actions',
-];
+const valid_page_server_exports = [...valid_common_exports, 'actions'];
 const valid_server_exports = [
 	'GET',
 	'POST',

@@ -192,12 +192,30 @@ test.describe('Endpoints', () => {
 	test('OPTIONS handler', async ({ request }) => {
 		const url = '/endpoint-output/options';
 
-		var response = await request.fetch(url, {
+		const response = await request.fetch(url, {
 			method: 'OPTIONS'
 		});
 
 		expect(response.status()).toBe(200);
 		expect(await response.text()).toBe('ok');
+	});
+
+	test('catch-all handler', async ({ request }) => {
+		const url = '/endpoint-output/all';
+
+		let response = await request.fetch(url, {
+			method: 'GET'
+		});
+
+		expect(response.status()).toBe(200);
+		expect(await response.text()).toBe('ok');
+
+		response = await request.fetch(url, {
+			method: 'OPTIONS'
+		});
+
+		expect(response.status()).toBe(200);
+		expect(await response.text()).toBe('catch-all');
 	});
 });
 
