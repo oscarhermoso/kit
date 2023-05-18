@@ -55,7 +55,7 @@ export function serialize_data(fetched, filter, prerendering = false) {
 
 		if (key === 'cache-control') cache_control = value;
 		if (key === 'age') age = value;
-		if (key === 'vary') vary = true;
+		if (key === 'vary') vary ||= value.includes('*');
 	}
 
 	const payload = {
@@ -89,9 +89,8 @@ export function serialize_data(fetched, filter, prerendering = false) {
 	}
 
 	// Compute the time the response should be cached, taking into account max-age and age.
-	// Do not cache at all if a vary header is present, as this indicates that the cache is
-	// likely to get busted. It would also mean we'd have to add more logic to computing the
-	// selector on the client which results in more code for 99% of people for the 1% who use vary.
+	// Do not cache at all if a vary header includes '*', as this indicates that the cache is
+	// likely to get busted.
 	if (!prerendering && fetched.method === 'GET' && cache_control && !vary) {
 		const match = /s-maxage=(\d+)/g.exec(cache_control) ?? /max-age=(\d+)/g.exec(cache_control);
 		if (match) {

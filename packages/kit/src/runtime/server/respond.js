@@ -4,7 +4,7 @@ import { is_endpoint_request, render_endpoint } from './endpoint.js';
 import { render_page } from './page/index.js';
 import { render_response } from './page/render.js';
 import { respond_with_error } from './page/respond_with_error.js';
-import { is_form_content_type } from '../../utils/http.js';
+import { is_form_content_type, has_vary_accept } from '../../utils/http.js';
 import { handle_fatal_error, redirect_response } from './utils.js';
 import {
 	decode_pathname,
@@ -393,8 +393,11 @@ export async function respond(request, options, manifest, state) {
 					);
 				} else if (route.endpoint && (!route.page || is_endpoint_request(event))) {
 					response = await render_endpoint(event, await route.endpoint(), state);
+					if (route.page && !has_vary_accept(response)) response.headers.append('Vary', 'Accept');
 				} else if (route.page) {
 					response = await render_page(event, route.page, options, manifest, state, resolve_opts);
+					if (route.endpoint && !has_vary_accept(response))
+						response.headers.append('Vary', 'Accept');
 				} else {
 					// a route will always have a page or an endpoint, but TypeScript
 					// doesn't know that

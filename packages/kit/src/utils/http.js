@@ -77,3 +77,16 @@ export function is_form_content_type(request) {
 		'text/plain'
 	);
 }
+
+/**
+ * @param {Request | Response} exchange
+ */
+export function has_vary_accept(exchange) {
+	const vary =
+		exchange.headers
+			.get('vary')
+			?.toLowerCase()
+			?.split(',')
+			.map((s) => s.trim()) ?? '';
+	return vary.includes('*') || vary.includes('accept');
+}

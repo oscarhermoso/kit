@@ -514,6 +514,22 @@ test.describe('cookies', () => {
 	});
 });
 
+test.describe('Vary', () => {
+	test('sets Vary: Accept on page with adjacent endpoint', async ({ request }) => {
+		const response = await request.get('/vary');
+		expect(response.headers()['Vary']).toBe('Accept');
+	});
+
+	test('sets Vary: Accept on endpoint with adjacent page', async ({ request }) => {
+		const response = await request.get('/vary', {
+			headers: {
+				accept: 'application/json'
+			}
+		});
+		expect(response.headers()['Vary']).toBe('Accept');
+	});
+});
+
 test.describe('Miscellaneous', () => {
 	test('does not serve version.json with an immutable cache header', async ({ request }) => {
 		// this isn't actually a great test, because caching behaviour is down to adapters.
