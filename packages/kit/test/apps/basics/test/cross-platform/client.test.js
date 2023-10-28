@@ -523,6 +523,13 @@ test.describe.serial('Errors', () => {
 		await clicknav('button:text-is("Redirect")');
 		expect(page.url()).toBe(baseURL + '/load');
 	});
+	
+	test('Additonal error when rendering 404 should state "Internal Error"', async ({ page }) => {
+		await page.goto('/errors/error-in-404');
+		expect(await page.textContent('h1')).toBe(
+			'Internal Error'
+		);
+	});
 });
 
 test.describe('Prefetching', () => {

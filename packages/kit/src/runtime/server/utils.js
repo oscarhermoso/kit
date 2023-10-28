@@ -103,10 +103,13 @@ export async function handle_error_and_jsonify(event, options, error) {
 		}
 
 		return (
-			(await options.hooks.handleError({ error, event })) ?? {
-				message: event.route.id != null ? 'Internal Error' : 'Not Found'
-			}
-		);
+      (await options.hooks.handleError({ error, event })) ?? {
+        message:
+          Object.hasOwn(error, "status") && error.status === 404
+            ? "Not Found"
+            : "Internal Error",
+      }
+    );
 	}
 }
 
